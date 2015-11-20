@@ -9,6 +9,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>
+#include <LibLog.cpp>
+
 using namespace boost::filesystem;
 
 class File {
@@ -16,6 +18,7 @@ private:
 	int size_of_file;
 	std::string type_of_file;
 	std::string date_update;
+	Log log;
 
 	friend class boost::serialization::access;
 	template<class Archive> void serialize(Archive & ar,
@@ -36,7 +39,7 @@ public:
 			set_size(path);
 			set_date(path);
 		} else {
-			view("un problème est survenu le dossier/fichier/autre n'existe pas");
+			log.error("un problème est survenu le dossier/fichier/autre n'existe pas");
 		}
 
 	}
@@ -79,4 +82,3 @@ public:
 	}
 
 };
-
