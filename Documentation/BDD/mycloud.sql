@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.3
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 13 Novembre 2015 à 13:57
--- Version du serveur :  5.6.24
--- Version de PHP :  5.6.8
+-- Généré le :  Ven 20 Novembre 2015 à 13:21
+-- Version du serveur :  5.5.46-0+deb7u1
+-- Version de PHP :  5.6.15-1~dotdeb+7.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de données :  `mycloud`
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Structure de la table `Files`
 --
 
-CREATE TABLE IF NOT EXISTS `Files` (
+CREATE TABLE `Files` (
   `idFiles` int(11) NOT NULL,
   `nameFile` varchar(250) DEFAULT NULL,
   `path` varchar(250) DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `Files` (
 -- Structure de la table `logs`
 --
 
-CREATE TABLE IF NOT EXISTS `logs` (
+CREATE TABLE `logs` (
   `idlogs` int(11) NOT NULL,
   `logs` longtext,
   `User_idUser` int(11) NOT NULL
@@ -54,10 +54,12 @@ CREATE TABLE IF NOT EXISTS `logs` (
 -- Structure de la table `User`
 --
 
-CREATE TABLE IF NOT EXISTS `User` (
+CREATE TABLE `User` (
   `idUser` int(11) NOT NULL,
   `nom` varchar(250) DEFAULT NULL,
   `prenom` varchar(250) DEFAULT NULL,
+  `pseudo` varchar(250) NOT NULL,
+  `mdp` varchar(250) NOT NULL,
   `ip` varchar(45) DEFAULT NULL,
   `adresseMail` varchar(250) DEFAULT NULL,
   `dateSyn` datetime DEFAULT NULL,
