@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1444389419 source:/home/web2014/M1_IPII/c++/TD1/TD1Test/main.cpp
+	<iostream>
+	<string.h>
+	"DataBaseType.h"
+	"MySQL.h"
+	"SQLite.h"
+
+1443788014 /home/web2014/M1_IPII/c++/TD1/TD1Test/DataBaseType.h
+	<string>
+
+1443790637 /home/web2014/M1_IPII/c++/TD1/TD1Test/MySQL.h
+	<cppconn/resultset.h>
+	<cppconn/prepared_statement.h>
+	<mysql_connection.h>
+	<mysql_driver.h>
+	<string>
+
+1443790655 /home/web2014/M1_IPII/c++/TD1/TD1Test/SQLite.h
+	<sqlite3.h>
+	<string>
+
