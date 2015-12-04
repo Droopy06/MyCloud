@@ -1,111 +1,72 @@
--- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
---
--- Client :  localhost
--- Généré le :  Ven 20 Novembre 2015 à 13:21
--- Version du serveur :  5.5.46-0+deb7u1
--- Version de PHP :  5.6.15-1~dotdeb+7.1
+-- MySQL Workbench Forward Engineering
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mycloud
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mycloud
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mycloud` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `mycloud` ;
+
+-- -----------------------------------------------------
+-- Table `mycloud`.`User`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mycloud`.`User` (
+  `idUser` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(250) NULL,
+  `prenom` VARCHAR(250) NULL,
+  `ip` VARCHAR(45) NULL,
+  `adresseMail` VARCHAR(250) NULL,
+  `dateSyn` DATE NULL,
+  `tokenConf` VARCHAR(45) NULL,
+  PRIMARY KEY (`idUser`))
+ENGINE = InnoDB;
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+-- -----------------------------------------------------
+-- Table `mycloud`.`Files`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mycloud`.`Files` (
+  `idFiles` INT NOT NULL,
+  `nameFile` VARCHAR(250) NULL,
+  `path` VARCHAR(250) NULL,
+  `dateUpload` VARCHAR(250) NULL,
+  `poids` FLOAT NULL,
+  `type` VARCHAR(45) NULL,
+  `User_idUser` INT NOT NULL,
+  PRIMARY KEY (`idFiles`, `User_idUser`),
+  INDEX `fk_Files_User_idx` (`User_idUser` ASC),
+  CONSTRAINT `fk_Files_User`
+    FOREIGN KEY (`User_idUser`)
+    REFERENCES `mycloud`.`User` (`idUser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
---
--- Base de données :  `mycloud`
---
 
--- --------------------------------------------------------
+-- -----------------------------------------------------
+-- Table `mycloud`.`logs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mycloud`.`logs` (
+  `idlogs` INT NOT NULL AUTO_INCREMENT,
+  `logs` LONGTEXT NULL,
+  `User_idUser` INT NOT NULL,
+  PRIMARY KEY (`idlogs`, `User_idUser`),
+  INDEX `fk_logs_User1_idx` (`User_idUser` ASC),
+  CONSTRAINT `fk_logs_User1`
+    FOREIGN KEY (`User_idUser`)
+    REFERENCES `mycloud`.`User` (`idUser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
---
--- Structure de la table `Files`
---
 
-CREATE TABLE `Files` (
-  `idFiles` int(11) NOT NULL,
-  `nameFile` varchar(250) DEFAULT NULL,
-  `path` varchar(250) DEFAULT NULL,
-  `dateUpload` datetime DEFAULT NULL,
-  `poids` float DEFAULT NULL,
-  `type` varchar(45) DEFAULT NULL,
-  `User_idUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `logs`
---
-
-CREATE TABLE `logs` (
-  `idlogs` int(11) NOT NULL,
-  `logs` longtext,
-  `User_idUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `User`
---
-
-CREATE TABLE `User` (
-  `idUser` int(11) NOT NULL,
-  `nom` varchar(250) DEFAULT NULL,
-  `prenom` varchar(250) DEFAULT NULL,
-  `pseudo` varchar(250) NOT NULL,
-  `mdp` varchar(250) NOT NULL,
-  `ip` varchar(45) DEFAULT NULL,
-  `adresseMail` varchar(250) DEFAULT NULL,
-  `dateSyn` datetime DEFAULT NULL,
-  `tokenConf` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Index pour les tables exportées
---
-
---
--- Index pour la table `Files`
---
-ALTER TABLE `Files`
-  ADD PRIMARY KEY (`idFiles`,`User_idUser`),
-  ADD KEY `fk_Files_User_idx` (`User_idUser`);
-
---
--- Index pour la table `logs`
---
-ALTER TABLE `logs`
-  ADD PRIMARY KEY (`idlogs`,`User_idUser`),
-  ADD KEY `fk_logs_User1_idx` (`User_idUser`);
-
---
--- Index pour la table `User`
---
-ALTER TABLE `User`
-  ADD PRIMARY KEY (`idUser`);
-
---
--- Contraintes pour les tables exportées
---
-
---
--- Contraintes pour la table `Files`
---
-ALTER TABLE `Files`
-  ADD CONSTRAINT `fk_Files_User` FOREIGN KEY (`User_idUser`) REFERENCES `User` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Contraintes pour la table `logs`
---
-ALTER TABLE `logs`
-  ADD CONSTRAINT `fk_logs_User1` FOREIGN KEY (`User_idUser`) REFERENCES `User` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
