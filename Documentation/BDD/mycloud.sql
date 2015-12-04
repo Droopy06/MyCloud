@@ -17,7 +17,7 @@ USE `mycloud` ;
 -- -----------------------------------------------------
 -- Table `mycloud`.`User`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mycloud`.`User` (
+CREATE TABLE IF NOT EXISTS `mycloud`.`user` (
   `idUser` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(250) NULL,
   `prenom` VARCHAR(250) NULL,
