@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `mycloud`.`user` (
   `idUser` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(250) NULL,
   `prenom` VARCHAR(250) NULL,
+  `mdp` VARCHAR(250) NULL,
   `ip` VARCHAR(45) NULL,
   `adresseMail` VARCHAR(250) NULL,
   `dateSyn` DATE NULL,
