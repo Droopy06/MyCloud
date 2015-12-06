@@ -12,8 +12,8 @@ class MySQL
 {
     public:
         MySQL(const string & user, const string & password, const string & database);
-        const string getUser(const string & nom, const string & password);
-        const string getLastDateUser(const string & nom, const string & password);
+        const string getUser(const string & login, const string & password);
+        const string getLastDateUser(const string & login, const string & password);
         const string insertUser(const string & nom,const string & prenom,const string & pseudo,
                                 const string & password, const string & ip,const string & adresseMail,
                                 const string & tokenConf);

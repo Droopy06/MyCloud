@@ -1,0 +1,48 @@
+/*
+ * main.cpp
+ *
+ *  Created on: 28 oct. 2014
+ *      Author: nicolas
+ */
+
+#include <string.h>
+#include <iostream>
+
+#include <boost/lexical_cast.hpp>
+
+#include "../model/info.hpp"
+#include "../service/server.hpp"
+#include "DataBaseType.h"
+#include "MySQl.h"
+#include <vector>
+#include <fstream>
+
+namespace mycloud {
+
+int run_server() {
+	try {
+		unsigned short port = boost::lexical_cast<unsigned short>(5554);
+		boost::asio::io_service io_service;
+		service::server server(io_service, port);
+		io_service.run();
+	} catch (std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
+	return 0;
+}
+}
+
+int main(int argc, char ** argv) {
+
+	db::DataBaseType<MySQL> dbMySQL("root", "123456", "mycloud") ;
+	string idMySQL = dbMySQL.getUser("root", "123456");
+	//string dateMySQL = dbMySQL.getLastDateUser("root", "");
+	cout << "Test MySQL" << endl << "idMySQL : " << idMySQL << endl;
+	//cout << "Test MySQL" << endl << "dateMySQL : " << dateMySQL << endl;
+
+
+	std::cout << "server" << std::endl;
+	mycloud::run_server();
+
+	return 0;
+}

@@ -1,0 +1,65 @@
+/*
+*	server.hpp
+ *
+ *  Created on: 28 oct. 2014
+ *      Author: nicolas
+ */
+
+
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <iostream>
+#include "../service/connection.hpp" // serialisation
+#include <boost/serialization/vector.hpp>
+#include "../model/info.hpp"
+
+namespace mycloud {
+namespace service{
+
+class server
+{
+public:
+	// constucteur
+	server(boost::asio::io_service& io_service, unsigned short port)
+: acceptor_(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)) {
+		// accepte une nouvelle connexion
+		connection_ptr new_conn(new connection(acceptor_.get_io_service()));
+		acceptor_.async_accept(new_conn->socket(), boost::bind(&server::handle_accept, this, boost::asio::placeholders::error, new_conn));
+	}
+	/// handle appelé après acceptation
+	void handle_accept(const boost::system::error_code& e, connection_ptr conn)	{
+		if (!e)	{	// acceptation réussie
+			// lecture des informations
+			conn->async_read(infos, boost::bind(&server::handle_read, this, boost::asio::placeholders::error, conn));
+		}
+		// démarrage d'une nouvelle connection
+		connection_ptr new_conn(new connection(acceptor_.get_io_service()));
+		acceptor_.async_accept(new_conn->socket(), boost::bind(&server::handle_accept, this, boost::asio::placeholders::error, new_conn));
+
+	}
+	// handle appelé après lecture
+	void handle_read(const boost::system::error_code& e, connection_ptr conn)	{
+		if (!e)	{	// lecture des informations
+			std::cout << "OK" << std::endl;
+
+			db::DataBaseType<MySQL> dbMySQL("root", "123456", "mycloud") ;
+			string idMySQL = dbMySQL.getUser("root", "123456");
+			//string dateMySQL = dbMySQL.getLastDateUser("root", "");
+			cout << "Test MySQL" << endl << "idMySQL : " << idMySQL << endl;
+			//cout << "Test MySQL" << endl << "dateMySQL : " << dateMySQL << endl;
+
+			for(model::info i : infos)	{
+				std::cout << i.getNom() << ":" << i.getPrenom() << std::endl;
+			}
+		} else {
+			std::cerr << e.message() << std::endl;
+		}
+	}
+private:
+	boost::asio::ip::tcp::acceptor acceptor_;
+	std::vector<model::info> infos;
+
+};
+
+}
+}

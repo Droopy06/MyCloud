@@ -1,0 +1,14 @@
+
+**** Build of configuration Debug for project testBdd ****
+
+make all 
+Building file: ../src/main.cpp
+Invoking: GCC C++ Compiler
+g++ -I"/home/steven/workspaceServer/libBdd/src" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/main.d" -MT"src/main.d" -o"src/main.o" "../src/main.cpp"
+Finished building: ../src/main.cpp
+ 
+Building target: testBdd
+Invoking: GCC C++ Linker
+g++ -L"/home/steven/workspaceServer/libBdd/Debug" -L/usr/lib -L/usr/lib/i836-linux-gnu -o"testBdd"  ./src/main.o   -llibBdd -lmysqlcppconn -lsqlite3
+Finished building target: testBdd
+ 

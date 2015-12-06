@@ -1,0 +1,50 @@
+/*
+ * Info.h
+ *
+ *  Created on: 28 oct. 2014
+ *      Author: nicolas
+ */
+
+#ifndef INFO_H_
+#define INFO_H_
+
+#include <string>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+
+namespace mycloud {
+namespace model {
+class info {
+private:
+	std::string addressMail;
+	std::string prenom;
+	friend class boost::serialization::access;
+	template<class Archive> void serialize(Archive & ar,
+			const unsigned int version) {
+		ar & addressMail;
+		ar & prenom;
+	}
+public:
+	info()	{}
+	~info() {}
+
+	const std::string& getNom() const {
+		return addressMail;
+	}
+
+	void setNom(const std::string& nom) {
+		this->addressMail = nom;
+	}
+
+	const std::string& getPrenom() const {
+		return prenom;
+	}
+
+	void setPrenom(const std::string& prenom) {
+		this->prenom = prenom;
+	}
+};
+}
+}
+
+#endif /* INFO_H_ */

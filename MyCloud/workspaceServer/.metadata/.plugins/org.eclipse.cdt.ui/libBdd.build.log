@@ -1,0 +1,19 @@
+
+**** Build of configuration Debug for project libBdd ****
+
+make all 
+Building file: ../src/DataBaseType.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/DataBaseType.d" -MT"src/DataBaseType.d" -o"src/DataBaseType.o" "../src/DataBaseType.cpp"
+Finished building: ../src/DataBaseType.cpp
+ 
+Building file: ../src/MySQl.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/MySQl.d" -MT"src/MySQl.d" -o"src/MySQl.o" "../src/MySQl.cpp"
+Finished building: ../src/MySQl.cpp
+ 
+Building target: liblibBdd.so
+Invoking: GCC C++ Linker
+g++ -L/usr/lib -L/usr/lib/i836-linux-gnu -shared -o"liblibBdd.so"  ./src/DataBaseType.o ./src/MySQl.o   -lmysqlcppconn -lsqlite3
+Finished building target: liblibBdd.so
+ 
