@@ -5,15 +5,16 @@
  *      Author: nicolas
  */
 
+#include <LibPath.hpp>
 #include "DataBaseType.h"
 #include "MySQl.h"
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <iostream>
-#include "../service/connection.hpp" // serialisation
+#include "connection.hpp" // serialisation
 #include <boost/serialization/vector.hpp>
 #include "../model/info.hpp"
-
+#include <fstream>
 
 namespace mycloud {
 namespace service{
@@ -50,9 +51,21 @@ public:
 			}
 			if(idMySQL == "1"){
 				cout << "Connexion réussi" << endl;
+
+				File file("/home/steven/server/",idMySQL);
+
+				std::string path="/home/steven/server/" + idMySQL + "referencement.xml";
+				std::ifstream input(path.c_str());
+				std::stringstream data_in;
+				data_in << input.rdbuf();
+				input.close();
+
+				conn->socket().send(boost::asio::buffer(data_in.str()));
 			}else{
 				cout << "Connexion échoué" << endl;
 			}
+
+
 
 		} else {
 			std::cerr << e.message() << std::endl;

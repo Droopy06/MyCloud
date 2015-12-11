@@ -6,22 +6,22 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 /*
-#include <LibPath.cpp>
-#include <fstream>
+ #include <LibPath.cpp>
+ #include <fstream>
 
-int main(int argc, char* argv[]) {
-	std::string pathInfo("/home/steven/Documents/aze.xml");
-	std::ofstream ofs(pathInfo.c_str());
+ int main(int argc, char* argv[]) {
+ std::string pathInfo("/home/steven/Documents/aze.xml");
+ std::ofstream ofs(pathInfo.c_str());
 
-	const File file("/home/steven/Documents/azeaze");
-	{
-		boost::archive::xml_oarchive oa(ofs);
-		oa << boost::serialization::make_nvp("option", file);
-	}
+ const File file("/home/steven/Documents/azeaze");
+ {
+ boost::archive::xml_oarchive oa(ofs);
+ oa << boost::serialization::make_nvp("option", file);
+ }
 
-	return 0;
-}
-*/
+ return 0;
+ }
+ */
 /*
  * main.cpp
  *
@@ -29,6 +29,7 @@ int main(int argc, char* argv[]) {
  *      Author: nicolas
  */
 
+#include <LibPath.cpp>
 #include <string.h>
 #include <iostream>
 
@@ -41,32 +42,54 @@ int main(int argc, char* argv[]) {
 
 namespace mycloud {
 
-int run_client(const std::vector<mycloud::model::info> & infos)	{
-	try	{
-		boost::asio::io_service io_service;
-		model::info i;
-		service::client client(infos, io_service, "127.0.0.1", "5554");
-		io_service.run();
-	} catch (std::exception& e) {
-		std::cerr << e.what() << std::endl;
+	bool run_client(const std::vector<mycloud::model::info> & infos,
+			int tentativeConnexion) {
+		int connexion;
+		try {
+			boost::asio::io_service io_service;
+			service::client client(infos, io_service, "127.0.0.1", "5554");
+			connexion = io_service.run();
+		} catch (std::exception& e) {
+			std::cerr << e.what() << std::endl;
+		}
+		bool connexionSucess = true;
+		if (connexion == 1 && tentativeConnexion <= 3) {
+			std::cerr << "Tentative connexion numéros : " << tentativeConnexion << " ..." << std::endl;
+			tentativeConnexion = tentativeConnexion + 1;
+			sleep(2);
+			connexionSucess = run_client(infos, tentativeConnexion);
+		}else if(connexion == 1 && tentativeConnexion > 3){
+			connexionSucess = false;
+		}
+
+		return connexionSucess;
 	}
-	return 0;
-}
 }
 
-int main(int argc, char ** argv)	{
-		std::cout << "client" << std::endl;
 
-		std::vector<mycloud::model::info> infos;
 
-		mycloud::model::info iFirst;
-		iFirst.setAddressMail("groover.dieu@gmail.com");
-		iFirst.setPwd("1234567");
+int main(int argc, char ** argv) {
+	std::cerr << "Connexion au serveur" << std::endl;
 
-		infos.push_back(iFirst);
+	std::vector < mycloud::model::info > infos;
 
-		mycloud::run_client(infos);
+	mycloud::model::info iFirst;
+	iFirst.setAddressMail("groover.dieu@gmail.com");
+	iFirst.setPwd("123456");
 
+	infos.push_back(iFirst);
+
+	if(mycloud::run_client(infos, 1)){
+		/*
+		std::string pathInfo("/home/steven/myCloud/referentiel.xml");
+		std::ofstream ofs(pathInfo.c_str());
+
+		const File file("/home/steven/Documents/azeaze");
+		{
+			boost::archive::xml_oarchive oa(ofs);
+			oa << boost::serialization::make_nvp("option", file);
+		}*/
+	}
 
 	return 0;
 }

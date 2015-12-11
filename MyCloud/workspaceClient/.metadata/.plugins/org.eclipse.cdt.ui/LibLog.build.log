@@ -1,0 +1,14 @@
+
+**** Build of configuration Debug for project LibLog ****
+
+make all 
+Building file: ../src/LibLog.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/LibLog.d" -MT"src/LibLog.d" -o"src/LibLog.o" "../src/LibLog.cpp"
+Finished building: ../src/LibLog.cpp
+ 
+Building target: libLibLog.so
+Invoking: GCC C++ Linker
+g++ -shared -o"libLibLog.so"  ./src/LibLog.o   
+Finished building target: libLibLog.so
+ 

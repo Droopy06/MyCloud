@@ -21,16 +21,25 @@ private:
 	Log log;
 
 	friend class boost::serialization::access;
-	template<class Archive> void serialize(Archive & ar,
-			const unsigned int version) {
-		ar & boost::serialization::make_nvp("options", size_of_file);
-		ar & boost::serialization::make_nvp("options", type_of_file);
-		ar & boost::serialization::make_nvp("options", date_update);
+	template<class Archive> void serialize(Archive & ar, const unsigned int version) {
+		ar & boost::serialization::make_nvp("size", size_of_file);
+		ar & boost::serialization::make_nvp("type", type_of_file);
+		ar & boost::serialization::make_nvp("date_update", date_update);
 	}
 
 public:
+
 	File(const std::string& path) {
+		check_base_folder();
 		all_set(path);
+	}
+
+	void check_base_folder(){
+		std::string path_base = "/home/steven/myCloud/";
+		if (!exists(path_base)) {
+			create_directories(path_base);
+			log.info("Creation du dossier myCloud");
+		}
 	}
 
 	void all_set(const std::string& path) {

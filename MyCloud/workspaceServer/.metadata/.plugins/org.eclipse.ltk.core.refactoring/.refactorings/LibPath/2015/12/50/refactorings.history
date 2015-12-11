@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;LibPath/src/LibPath.cpp&apos; to &apos;LibPath.hpp&apos;" description="Rename resource &apos;LibPath.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/LibPath.cpp" name="LibPath.hpp" stamp="1449840570935" updateReferences="true"/>
+</session>

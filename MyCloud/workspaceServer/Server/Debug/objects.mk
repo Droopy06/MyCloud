@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lboost_system -lboost_serialization -lpthread -llibBdd -lmysqlcppconn
+LIBS := -lboost_system -lboost_filesystem -lboost_serialization -lpthread -llibBdd -lmysqlcppconn
 

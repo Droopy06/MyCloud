@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;LibLog/src/LibLog.cpp&apos; to &apos;LibLog.hpp&apos;" description="Rename resource &apos;LibLog.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/LibLog.cpp" name="LibLog.hpp" stamp="1449840577005" updateReferences="true"/>
+</session>
