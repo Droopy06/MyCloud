@@ -43,7 +43,7 @@ public:
 	// handle appelé après lecture
 	void handle_read(const boost::system::error_code& e, connection_ptr conn)	{
 		if (!e)	{	// lecture des informations
-			db::DataBaseType<MySQL> dbMySQL("root", "123456", "mycloud") ;
+			db::DataBaseType<MySQL> dbMySQL("root", "", "mycloud") ;
 			string idMySQL;
 
 			for(model::info i : infos)	{
@@ -70,6 +70,66 @@ public:
 		} else {
 			std::cerr << e.message() << std::endl;
 		}
+	}
+	string readMap(const string &filename)
+	{
+	    ifstream file (filename.c_str(), ios::in|ios::binary);
+	    string reply;
+	    char buf[4096];
+	    while (file.read(buf, sizeof(buf)).gcount() > 0)
+	        reply.append(buf, file.gcount());
+	    return reply;
+	}
+	void handle_file(const boost::system::error_code& e, connection_ptr conn,string nameFile)	{
+		if (!e)	{	// lecture des informations
+			db::DataBaseType<MySQL> dbMySQL("root", "", "mycloud") ;
+			string idMySQL;
+			for(model::info i : infos)	{
+				idMySQL = dbMySQL.getUser(i.getAddressMail(), i.getPwd());
+			}
+			File file("/home/steven/server/",idMySQL);
+			std::string path="/home/steven/client/" + idMySQL + nameFile;
+			std::stringstream data_in;
+			data_in << readMap(path.c_str());
+			conn->socket().send(boost::asio::buffer(data_in.str()));
+		}
+	}
+	void handle_file_receive(const boost::system::error_code& e, connection_ptr conn){
+		char buffer[4096]; long buffer2;
+		// Reçois la taille du nom du fichier (4 octet ou 32 bits)
+		/*int nombre_de_caractere=recv(,(char*)&buffer2,4,0);
+		if (nombre_de_caractere==SOCKET_ERROR)
+		{
+			cout << "Erreur, je n'ai pas recu la taille du nom de fichier !\n\n";
+			system("PAUSE");
+		}
+		// Reçois le nom du fichier
+		char*nomdefichier=new char[buffer2+1];nomdefichier[0]=0;
+		char*nomdefichier=new char[buffer2+1];nomdefichier[0]=0;
+		    for (int i=0;i<buffer2;i+=nombre_de_caractere)
+		    {
+		        nombre_de_caractere=conn->async_read(infos, boost::bind(&server::handle_read, this, boost::asio::placeholders::error, conn));
+		        if (nombre_de_caractere==-1)
+		        {
+		            cout << "Erreur, je n'ai pas recu le nom du fichier !\n\n";
+		            system("PAUSE");
+		        }
+		        else
+		        {
+		            for (int y=0;y<nombre_de_caractere;y++)
+		            {
+		                nomdefichier[y+i]=buffer[y];
+		                nomdefichier[y+i+1]=0;
+		            }
+		        }
+		    }
+		    cout << "Nom du fichier a recevoir : " << nomdefichier << "\n";
+
+		    ofstream fichiers(nomdefichier,ios::out|ios::binary);
+		    if (!fichiers)
+		    {
+		        cout << "Erreur, impossible de créer le fichier !\n\n";
+		    }*/
 	}
 private:
 	boost::asio::ip::tcp::acceptor acceptor_;
